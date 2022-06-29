@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/css/chat_box.css">
+<h1>
+    home page 
+</h1> 
+ <section id="feed-posts"> 
+     <% if(locals.user){%>
+        <form action="/posts/create" id="home_posts" method="POST">
+            <textarea name="content"  cols="30" rows="3" placeholder="type somthing here...."></textarea>
+            <input type="submit" value="post">
+        </form>
+        <%} %>
+    
+
+    <div id="posts-division">
+        <ul>
+            <% for(post of posts){%>
+                <%- include('_post') -%>
+            <%} %>
+        </ul>
+    </div>
+ </section>
+
+
+ <section id="all_users">
+    <h4>Friends</h4>
+    <% for(u of all_user){%>
+        <p>
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+        </p>
+        <%} %>
+ </section>
+ <%- include('_chat_box') -%>
+
+ <script src="js/home_post.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+ <script src="/js/chat_engine.js"></script>
+ <!-- initsislaise the class -->
+<%  if(locals.user){%>
+    <script>
+        new ChatEngine('user-chat-box','<%= locals.user.email %>' )
+    </script>
+    <%} %>
